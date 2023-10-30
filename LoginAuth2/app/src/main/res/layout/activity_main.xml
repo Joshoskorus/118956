@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <!-- "Welcome" Text with Increased Size -->
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="16dp" />
+
+    <!-- Centered Layout for Buttons -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <!-- Check BMI Button -->
+        <Button
+            android:id="@+id/checkBmiButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Health and Fitness Calculator"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="32dp" />
+
+        <!-- Diet Recommender -->
+        <Button
+            android:id="@+id/dietRecommender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diet Recommender"
+            android:layout_below="@+id/checkBmiButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp" />
+
+    </RelativeLayout>
+
+    <!-- User Info and Logout Button -->
+    <TextView
+        android:id="@+id/user_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:text="Log Out"
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/user_info" />
+
+    <!-- Profile Button -->
+    <Button
+        android:id="@+id/profileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:layout_below="@+id/user_info"
+        android:layout_toLeftOf="@+id/logoutButton" />
+
+</RelativeLayout>
