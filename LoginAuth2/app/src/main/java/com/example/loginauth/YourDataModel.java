@@ -1,3 +1,5 @@
+package com.example.loginauth;
+
 import com.google.gson.annotations.SerializedName;
 
 public class YourDataModel {

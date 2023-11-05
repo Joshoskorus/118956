@@ -35,14 +35,7 @@
             android:layout_marginTop="32dp" />
 
         <!-- Diet Recommender -->
-        <Button
-            android:id="@+id/dietRecommender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Diet Recommender"
-            android:layout_below="@+id/checkBmiButton"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp" />
+
 
     </RelativeLayout>
 

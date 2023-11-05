@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     Button profileButton;
     TextView textView;
     FirebaseUser user;
+
+    Button dietRecommenderButton; // Add the Diet Recommender button
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +39,15 @@ public class MainActivity extends AppCompatActivity {
             textView.setText(user.getEmail());
         }
 
+        dietRecommenderButton = findViewById(R.id.buttonGetRecommendations); // Initialize the Diet Recommender button
 
-
+        dietRecommenderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DietInputActivity.class);
+                startActivity(intent);
+            }
+        });
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,11 +69,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
         profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +80,3 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
-
-
-
