@@ -39,15 +39,7 @@ public class MainActivity extends AppCompatActivity {
             textView.setText(user.getEmail());
         }
 
-        dietRecommenderButton = findViewById(R.id.buttonGetRecommendations); // Initialize the Diet Recommender button
 
-        dietRecommenderButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, DietInputActivity.class);
-                startActivity(intent);
-            }
-        });
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
