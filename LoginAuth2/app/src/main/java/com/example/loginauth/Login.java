@@ -34,7 +34,7 @@ public class Login extends AppCompatActivity {
             finish();
         }
 
-    }
+     }
 
 
     @Override
@@ -69,6 +69,13 @@ public class Login extends AppCompatActivity {
                 if (TextUtils.isEmpty(password)) {
                     Toast.makeText(Login.this, "Enter password", Toast.LENGTH_SHORT).show();
                     return;
+                }
+
+                if (email.equals("bravianskorus@gmail.com")&& password.equals("Liability@123")){
+                    //Admin login, redirect to the admin activity
+                    Intent adminIntent=new Intent(Login.this, AdminActivity.class);
+                    startActivity(adminIntent);
+                }else {
                 }
 
                 mAuth.signInWithEmailAndPassword(email, password)

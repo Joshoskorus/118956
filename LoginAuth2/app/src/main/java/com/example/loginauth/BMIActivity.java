@@ -1,199 +1,164 @@
 package com.example.loginauth;
 
-import androidx.appcompat.app.AppCompatActivity;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BMIActivity extends AppCompatActivity {
+
+    // Declare UI elements
+    EditText weightEditText;
+    EditText heightEditText;
+    Button calculateBMIButton;
+    TextView bmiResultText;
+
+    EditText ageEditText;
+    Button calculateWaterIntakeButton;
+    TextView waterIntakeResultText;
+
+    Button fetchResultsButton;
+    TextView previousResultsText;
+
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmi);
 
-        final EditText editTextHeight = findViewById(R.id.editTextHeight);
-        final EditText editTextWeight = findViewById(R.id.editTextWeight);
-        final TextView bmiResult = findViewById(R.id.bmiResult);
-        Button calculateBMIButton = findViewById(R.id.calculateBMIButton);
+        db = FirebaseFirestore.getInstance();
 
-        final EditText editTextAge = findViewById(R.id.editTextAge);
-        final RadioGroup radioGroupGender = findViewById(R.id.radioGroupGender);
-        final EditText editTextHeightInches = findViewById(R.id.editTextHeightInches);
-        final EditText editTextWeightBMR = findViewById(R.id.editTextWeightBMR);
-        final TextView bmrResult = findViewById(R.id.bmrResult);
-        Button calculateBMRButton = findViewById(R.id.calculateBMRButton);
+        // Initialize UI elements for BMI
+        weightEditText = findViewById(R.id.editTextWeight);
+        heightEditText = findViewById(R.id.editTextHeight);
+        calculateBMIButton = findViewById(R.id.calculateBMIButton);
+        bmiResultText = findViewById(R.id.bmiResult);
 
-        // Find views for Daily Water Intake
-        final EditText editTextWeightWaterIntake = findViewById(R.id.editTextWeightWaterIntake);
-        final TextView waterIntakeResult = findViewById(R.id.waterIntakeResult);
-        Button calculateWaterIntakeButton = findViewById(R.id.calculateWaterIntakeButton);
+        // Initialize UI elements for Daily Water Intake
+        ageEditText = findViewById(R.id.editTextWeightWaterIntake);
+        calculateWaterIntakeButton = findViewById(R.id.calculateWaterIntakeButton);
+        waterIntakeResultText = findViewById(R.id.waterIntakeResult);
 
-        // Find views for TDEE
-        final EditText editTextAgeTDEE = findViewById(R.id.editTextAgeTDEE);
-        final RadioGroup radioGroupGenderTDEE = findViewById(R.id.radioGroupGenderTDEE);
-        final EditText editTextWeightTDEE = findViewById(R.id.editTextWeightTDEE);
-        final EditText editTextHeightTDEE = findViewById(R.id.editTextHeightTDEE);
-        final Spinner spinnerActivityLevel = findViewById(R.id.spinnerActivityLevel);
-        final TextView tdeeResult = findViewById(R.id.tdeeResult);
-        Button calculateTDEEButton = findViewById(R.id.calculateTDEEButton);
+        // Initialize UI elements for fetching previous results
+        fetchResultsButton = findViewById(R.id.fetchResultsButton);
+        previousResultsText = findViewById(R.id.previousResultsText);
 
-        // Define an array of activity levels
-        String[] activityLevels = {"Sedentary", "Lightly Active", "Moderately Active", "Very Active", "Extremely Active"};
-
-        // Create an ArrayAdapter for the Spinner
-        ArrayAdapter<String> activityLevelAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, activityLevels);
-        activityLevelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Set the ArrayAdapter to the Spinner
-        spinnerActivityLevel.setAdapter(activityLevelAdapter);
-
+        // Set up BMI calculation
         calculateBMIButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                // Get input values
-                String heightStr = editTextHeight.getText().toString();
-                String weightStr = editTextWeight.getText().toString();
-
-                if (heightStr.isEmpty() || weightStr.isEmpty()) {
-                    // Handle validation errors, e.g., show a Toast message or an error dialog
-                    // Return or inform the user that both height and weight are required.
-                } else {
-                    try {
-                        float height = Float.parseFloat(heightStr);
-                        float weight = Float.parseFloat(weightStr);
-
-                        // Perform BMI calculation
-                        float bmi = calculateBMI(height, weight);
-
-                        // Display the calculated BMI
-                        bmiResult.setText("Your BMI is: " + bmi);
-
-                        // Style the result TextView
-                        bmiResult.setTypeface(null, Typeface.BOLD);
-                    } catch (NumberFormatException e) {
-                        // Handle parsing errors, e.g., show a Toast message or an error dialog
-                        // Return or inform the user that height and weight must be valid numbers.
-                    }
-                }
+            public void onClick(View v) {
+                calculateBMI();
             }
         });
 
-        calculateBMRButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Get input values (gender, age, height, weight)
-                // Similar validation and error handling can be applied here.
-                // Then, perform BMR calculation and display the result.
-            }
-        });
-
+        // Set up Daily Water Intake calculation
         calculateWaterIntakeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                String weightWaterIntakeStr = editTextWeightWaterIntake.getText().toString();
-
-                if (weightWaterIntakeStr.isEmpty()) {
-                    // Handle validation errors, e.g., show a Toast message or an error dialog
-                    // Return or inform the user that weight for water intake is required.
-                } else {
-                    try {
-                        float weightWaterIntake = Float.parseFloat(weightWaterIntakeStr);
-                        float waterIntake = calculateWaterIntake(weightWaterIntake);
-
-                        // Display the calculated daily water intake
-                        waterIntakeResult.setText("Your Daily Water Intake is: " + waterIntake + " mL");
-
-                        // Style the result TextView
-                        waterIntakeResult.setTypeface(null, Typeface.BOLD);
-                    } catch (NumberFormatException e) {
-                        // Handle parsing errors, e.g., show a Toast message or an error dialog
-                        // Return or inform the user that weight for water intake must be a valid number.
-                    }
-                }
+            public void onClick(View v) {
+                calculateWaterIntake();
             }
         });
 
-        calculateTDEEButton.setOnClickListener(new View.OnClickListener() {
+        // Set up fetching previous results
+        fetchResultsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                // Get input values (gender, age, height, weight, activity level)
-                int selectedGenderId = radioGroupGenderTDEE.getCheckedRadioButtonId();
-                RadioButton selectedGender = findViewById(selectedGenderId);
-                String gender = selectedGender.getText().toString();
-
-                String ageStr = editTextAgeTDEE.getText().toString();
-                String heightStrTDEE = editTextHeightTDEE.getText().toString();
-                String weightStrTDEE = editTextWeightTDEE.getText().toString();
-                String activityLevel = spinnerActivityLevel.getSelectedItem().toString();
-
-                if (ageStr.isEmpty() || heightStrTDEE.isEmpty() || weightStrTDEE.isEmpty()) {
-                    // Handle validation errors, e.g., show a Toast message or an error dialog
-                    // Return or inform the user that all fields are required.
-                } else {
-                    try {
-                        int age = Integer.parseInt(ageStr);
-                        float height = Float.parseFloat(heightStrTDEE);
-                        float weight = Float.parseFloat(weightStrTDEE);
-
-                        // Perform TDEE calculation
-                        float tdee = calculateTDEE(gender, age, height, weight, activityLevel);
-
-                        // Display the calculated TDEE in the tdeeResult TextView
-                        tdeeResult.setText("Your Total Daily Energy Expenditure (TDEE) is: " + tdee + " calories");
-
-                        // Style the result TextView
-                        tdeeResult.setTypeface(null, Typeface.BOLD);
-                    } catch (NumberFormatException e) {
-                        // Handle parsing errors, e.g., show a Toast message or an error dialog
-                        // Return or inform the user that age, height, and weight must be valid numbers.
-                    }
-                }
+            public void onClick(View v) {
+                fetchPreviousResults();
             }
         });
     }
 
-    private float calculateTDEE(String gender, int age, float height, float weight, String activityLevel) {
-        // Calculate TDEE based on the appropriate formula for the chosen gender
-        float bmr;
+    private void calculateBMI() {
+        // Get user input for weight and height
+        double weight = Double.parseDouble(weightEditText.getText().toString());
+        double height = Double.parseDouble(heightEditText.getText().toString()) / 100; // Convert height to meters
 
-        if (gender.equals("Male")) {
-            bmr = 88.362f + (13.397f * weight) + (4.799f * height) - (5.677f * age);
-        } else {
-            bmr = 447.593f + (9.247f * weight) + (3.098f * height) - (4.330f * age);
-        }
+        // Calculate BMI
+        double bmi = weight / (height * height);
 
-        // Define activity level multipliers based on different activity levels
-        float activityMultiplier;
+        // Display the result
+        bmiResultText.setText("Your BMI: " + bmi);
 
-        if (activityLevel.equals("Sedentary")) {
-            activityMultiplier = 1.2f;
-        } else if (activityLevel.equals("Lightly Active")) {
-            activityMultiplier = 1.375f;
-        } else {
-            activityMultiplier = 1.0f;
-        }
-        float tdee = bmr * activityMultiplier;
-
-        return tdee;
+        // Save BMI result to Firestore under "Users/calculations" document
+        saveResultToFirestore("bmi", bmi);
     }
 
-    private float calculateWaterIntake(float weight) {
-        // Calculate daily water intake based on weight (in kilograms)
-        // The general recommendation is to drink at least 30-35 mL of water per kilogram of body weight.
-        return weight * 35; // You can adjust the multiplier as needed.
+    private void calculateWaterIntake() {
+        // Get user input for age
+        int age = Integer.parseInt(ageEditText.getText().toString());
+
+        // Calculate Daily Water Intake (a simple example, you may use a more accurate formula)
+        double waterIntake = age * 0.03; // This is just a placeholder formula, you might want to use a more accurate one
+
+        // Display the result
+        waterIntakeResultText.setText("Your Daily Water Intake: " + waterIntake + " liters");
+
+        // Save water intake result to Firestore
+        saveResultToFirestore("waterIntake", waterIntake);
     }
 
-    private float calculateBMI(float height, float weight) {
-        // Calculate BMI based on height and weight
-        float heightInMeters = height / 100; // Convert height to meters
-        return weight / (heightInMeters * heightInMeters);
+    private void saveResultToFirestore(String resultType, double result) {
+        // Create a map to store the result
+        Map<String, Object> resultData = new HashMap<>();
+        resultData.put("result", result);
+
+        // Save the result to Firestore
+        db.collection("calculations")
+                .document(resultType)
+                .set(resultData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(BMIActivity.this, "Result saved to Firestore", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(Exception e) {
+                        Toast.makeText(BMIActivity.this, "Failed to save result to Firestore", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void fetchPreviousResults() {
+        // Fetch previous results from Firestore and display them
+        db.collection("calculations")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            previousResultsText.setText("No previous results found.");
+                        } else {
+                            StringBuilder resultsBuilder = new StringBuilder();
+                            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                String resultType = document.getId();
+                                double result = document.getDouble("result");
+                                resultsBuilder.append(resultType).append(": ").append(result).append("\n");
+                            }
+                            previousResultsText.setText(resultsBuilder.toString());
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(Exception e) {
+                        Toast.makeText(BMIActivity.this, "Failed to fetch previous results from Firestore", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

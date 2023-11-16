@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".DietRecommendationsActivity">
+
+    <!-- Title for Diet Recommendations -->
+    <TextView
+        android:id="@+id/dietRecommendationsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Diet Recommendations"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <!-- Add a ScrollView to display diet recommendations -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/dietRecommendationsTitle"
+        android:layout_marginTop="16dp">
+
+        <!-- Wrap the chat interface in a LinearLayout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Input field for allergies -->
+            <EditText
+                android:id="@+id/allergiesEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your allergies..."
+                android:layout_marginTop="16dp" />
+
+            <!-- Input field for health goals -->
+            <EditText
+                android:id="@+id/healthGoalsEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your health goals..."
+                android:layout_marginTop="16dp" />
+
+            <!-- Input field for dietary preferences -->
+            <EditText
+                android:id="@+id/dietaryPreferencesEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter your dietary preferences..."
+                android:layout_marginTop="16dp" />
+
+            <!-- Submit Button and View Previous Responses Button -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Submit Button -->
+                <Button
+                    android:id="@+id/submitButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Submit"
+                    android:layout_marginTop="16dp" />
+
+                <!-- View Previous Responses Button -->
+                <Button
+                    android:id="@+id/viewPreviousResponsesButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:text="View Previous Responses" />
+            </LinearLayout>
+
+            <!-- TextView to display recommendations -->
+            <TextView
+                android:id="@+id/dietRecommendationsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="16sp"
+                android:layout_marginTop="16dp" />
+
+            <!-- Export PDF Button -->
+            <Button
+                android:id="@+id/exportPdfButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Export Text to PDF"
+                android:layout_marginTop="16dp"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

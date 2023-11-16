@@ -11,314 +11,134 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-
-    <!-- Title: Body Mass Index (BMI) Calculator -->
-    <TextView
-        android:id="@+id/bmiCalculatorTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Body Mass Index (BMI) Calculator"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:textStyle="bold" />
-
-    <!-- Height Input Field (cm) -->
-    <EditText
-        android:id="@+id/editTextHeight"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Height (cm)"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bmiCalculatorTitle"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Weight Input Field (kg) -->
-    <EditText
-        android:id="@+id/editTextWeight"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Weight (kg)"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextHeight"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Calculate BMI Button -->
-    <Button
-        android:id="@+id/calculateBMIButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Calculate BMI"
-        app:layout_constraintTop_toBottomOf="@id/editTextWeight"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
-
-    <!-- BMI Result TextView -->
-    <TextView
-        android:id="@+id/bmiResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        app:layout_constraintTop_toBottomOf="@id/calculateBMIButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:textStyle="bold" />
-
-    <!-- Title: Basal Metabolic Rate (BMR) Calculator -->
-    <TextView
-        android:id="@+id/bmrCalculatorTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Basal Metabolic Rate (BMR) Calculator"
-        app:layout_constraintTop_toBottomOf="@id/bmiResult"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:textStyle="bold" />
-
-    <!-- Age Input Field -->
-    <EditText
-        android:id="@+id/editTextAge"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Age"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bmrCalculatorTitle"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Gender Input Radio Buttons (Male/Female) -->
-    <RadioGroup
-        android:id="@+id/radioGroupGender"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextAge"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/radioButtonMale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Male"
-            android:checked="true" />
-
-        <RadioButton
-            android:id="@+id/radioButtonFemale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Female" />
-    </RadioGroup>
-
-    <!-- Height Input Field (inches) -->
-    <EditText
-        android:id="@+id/editTextHeightInches"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Height (inches)"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroupGender"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Weight Input Field (kg) for BMR Calculation -->
-    <EditText
-        android:id="@+id/editTextWeightBMR"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Weight (kg)"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextHeightInches"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Calculate BMR Button -->
-
-    <!-- BMR Result TextView -->
-
-    <Button
-        android:id="@+id/calculateBMRButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Calculate BMR"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextWeightBMR" />
-
-    <TextView
-        android:id="@+id/bmrResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        app:layout_constraintTop_toBottomOf="@id/calculateBMRButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:textStyle="bold" />
-
-    <!-- Title: Daily Water Intake Calculator -->
-    <TextView
-        android:id="@+id/waterIntakeTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Daily Water Intake Calculator"
-        app:layout_constraintTop_toBottomOf="@id/bmrResult"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:textStyle="bold" />
-
-    <!-- Body Weight Input Field (kg) for Water Intake Calculation -->
-    <EditText
-        android:id="@+id/editTextWeightWaterIntake"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Weight (kg)"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/waterIntakeTitle"
-        android:layout_marginTop="16dp" />
-
-    <!-- Calculate Water Intake Button -->
-    <Button
-        android:id="@+id/calculateWaterIntakeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Calculate Water Intake"
-        app:layout_constraintTop_toBottomOf="@id/editTextWeightWaterIntake"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
-
-    <!-- Water Intake Result TextView -->
-    <TextView
-        android:id="@+id/waterIntakeResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        app:layout_constraintTop_toBottomOf="@id/calculateWaterIntakeButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:textStyle="bold" />
-
-    <!-- Title: Total Daily Energy Expenditure (TDEE) Calculator -->
-    <TextView
-        android:id="@+id/tdeeCalculatorTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total Daily Energy Expenditure (TDEE) Calculator"
-        app:layout_constraintTop_toBottomOf="@id/waterIntakeResult"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:textStyle="bold" />
-
-    <!-- Age Input Field for TDEE -->
-    <EditText
-        android:id="@+id/editTextAgeTDEE"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Age"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tdeeCalculatorTitle"
-        android:layout_marginTop="16dp" />
-
-    <!-- Gender Input Radio Buttons (Male/Female) for TDEE -->
-    <RadioGroup
-        android:id="@+id/radioGroupGenderTDEE"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextAgeTDEE"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/radioButtonMaleTDEE"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Male"
-            android:checked="true" />
-
-        <RadioButton
-            android:id="@+id/radioButtonFemaleTDEE"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Female" />
-    </RadioGroup>
-
-    <!-- Weight Input Field (kg) for TDEE Calculation -->
-    <EditText
-        android:id="@+id/editTextWeightTDEE"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Weight (kg)"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroupGenderTDEE"
-        android:layout_marginTop="16dp" />
-
-    <!-- Height Input Field (cm) for TDEE Calculation -->
-    <EditText
-        android:id="@+id/editTextHeightTDEE"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Height (cm)"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextWeightTDEE"
-        android:layout_marginTop="16dp" />
-
-    <!-- Activity Level Spinner for TDEE Calculation -->
-    <Spinner
-        android:id="@+id/spinnerActivityLevel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextHeightTDEE"
-        android:layout_marginTop="16dp" />
-
-    <!-- Calculate TDEE Button -->
-    <Button
-        android:id="@+id/calculateTDEEButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Calculate TDEE"
-        app:layout_constraintTop_toBottomOf="@id/spinnerActivityLevel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
-
-    <!-- TDEE Result TextView -->
-        <!-- TDEE Result TextView -->
+        <!-- Title: Body Mass Index (BMI) Calculator -->
         <TextView
-            android:id="@+id/tdeeResult"
+            android:id="@+id/bmiCalculatorTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TDEE Result Will Display Here"
-            app:layout_constraintTop_toBottomOf="@id/calculateTDEEButton"
+            android:text="Body Mass Index (BMI) Calculator"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold" />
+
+        <!-- Height Input Field (cm) -->
+        <EditText
+            android:id="@+id/editTextHeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Height (cm)"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bmiCalculatorTitle"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Weight Input Field (kg) -->
+        <EditText
+            android:id="@+id/editTextWeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Weight (kg)"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editTextHeight"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Calculate BMI Button -->
+        <Button
+            android:id="@+id/calculateBMIButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calculate BMI"
+            app:layout_constraintTop_toBottomOf="@id/editTextWeight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <!-- BMI Result TextView -->
+        <TextView
+            android:id="@+id/bmiResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            app:layout_constraintTop_toBottomOf="@id/calculateBMIButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold" />
+
+        <!-- Title: Daily Water Intake Calculator -->
+        <TextView
+            android:id="@+id/waterIntakeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Daily Water Intake Calculator"
+            app:layout_constraintTop_toBottomOf="@id/bmiResult"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold" />
+
+        <!-- Body Weight Input Field (kg) for Water Intake Calculation -->
+        <EditText
+            android:id="@+id/editTextWeightWaterIntake"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Weight (kg)"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/waterIntakeTitle"
+            android:layout_marginTop="16dp" />
+
+        <!-- Calculate Water Intake Button -->
+        <Button
+            android:id="@+id/calculateWaterIntakeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calculate Water Intake"
+            app:layout_constraintTop_toBottomOf="@id/editTextWeightWaterIntake"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <!-- Water Intake Result TextView -->
+        <TextView
+            android:id="@+id/waterIntakeResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            app:layout_constraintTop_toBottomOf="@id/calculateWaterIntakeButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold" />
+
+        <!-- Fetch Results Button -->
+        <Button
+            android:id="@+id/fetchResultsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Previous Results"
+            app:layout_constraintTop_toBottomOf="@id/waterIntakeResult"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Previous Results TextView -->
+        <TextView
+            android:id="@+id/previousResultsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            app:layout_constraintTop_toBottomOf="@id/fetchResultsButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
             android:textStyle="bold" />
 
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </ScrollView>

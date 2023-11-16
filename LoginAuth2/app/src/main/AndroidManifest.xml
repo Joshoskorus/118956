@@ -20,6 +20,19 @@
             android:exported="false" />
 
         <activity
+            android:name=".DietRecommendationsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".AdminActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".PreviousResponsesActivity"
+            android:exported="false"/>
+
+
+        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity

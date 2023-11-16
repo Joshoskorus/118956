@@ -8,18 +8,21 @@
     tools:context=".MainActivity">
 
     <!-- "Welcome" Text with Increased Size -->
+
+    <!-- Centered Layout for Buttons -->
     <TextView
         android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="147dp"
         android:text="Welcome"
         android:textSize="48sp"
-        android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="16dp" />
+        android:textStyle="bold" />
 
-    <!-- Centered Layout for Buttons -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,5 +67,17 @@
         android:text="Profile"
         android:layout_below="@+id/user_info"
         android:layout_toLeftOf="@+id/logoutButton" />
+
+
+    <!-- Diet Recommender Button -->
+    <Button
+        android:id="@+id/dietRecommenderButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBmiButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="408dp"
+        android:text="Diet Recommendations" />
+
 
 </RelativeLayout>

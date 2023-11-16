@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         logoutButton = findViewById(R.id.logoutButton);
         textView = findViewById(R.id.user_info);
         user = auth.getCurrentUser();
+
+        //Create admin account where MainActivity is created
         if (user == null) {
             // If the user is not logged in, redirect to the Login activity
             Intent intent = new Intent(getApplicationContext(), Login.class);
@@ -38,16 +40,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             textView.setText(user.getEmail());
         }
-
-        dietRecommenderButton = findViewById(R.id.buttonGetRecommendations); // Initialize the Diet Recommender button
-
-        dietRecommenderButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, DietInputActivity.class);
-                startActivity(intent);
-            }
-        });
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +67,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Redirect to the ProfileActivity
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Initialize the Diet Recommendations button and handle its click event
+        dietRecommenderButton = findViewById(R.id.dietRecommenderButton);
+        dietRecommenderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle the Diet Recommendations button click
+                Intent intent = new Intent(MainActivity.this, DietRecommendationsActivity.class);
                 startActivity(intent);
             }
         });
