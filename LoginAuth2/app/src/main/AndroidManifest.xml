@@ -23,9 +23,6 @@
             android:name=".DietRecommendationsActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".AdminActivity"
-            android:exported="false"/>
 
         <activity
             android:name=".PreviousResponsesActivity"
@@ -41,14 +38,9 @@
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".Login"
-            android:exported="true"
-            android:theme="@style/Theme.Material3.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

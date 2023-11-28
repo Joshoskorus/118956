@@ -106,17 +106,6 @@ public class DietRecommendationsActivity extends AppCompatActivity {
             }
         });
 
-        Button exportPdfButton = findViewById(R.id.exportPdfButton);
-        exportPdfButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    exportToPdf();
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
 
 
 
@@ -166,7 +155,8 @@ public class DietRecommendationsActivity extends AppCompatActivity {
            public Map<String, String> getHeaders() throws AuthFailureError {
                HashMap<String,String> map =new HashMap<>();
                map.put("Content-Type", "application/json");
-               map.put("Authorization", "Bearer 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 ");
+               //Below is the api key i have unhighlighted it because it is not supposed to be exposed in github publicly
+              // map.put("Authorization", "Bearer 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");
 
                return map;
            }
@@ -199,23 +189,23 @@ public class DietRecommendationsActivity extends AppCompatActivity {
 
     }
 
-    private void exportToPdf() throws FileNotFoundException {
+    //private void exportToPdf() throws FileNotFoundException {
         // Get the diet recommendations text
-        String dietRecommendations = dietRecommendationsText.getText().toString();
+       // String dietRecommendations = dietRecommendationsText.getText().toString();
 
         // Create a PDF document
-        PdfDocument pdfDocument = new PdfDocument(new PdfWriter("diet_recommendations.pdf"));
-        Document document = new Document(pdfDocument);
+       // PdfDocument pdfDocument = new PdfDocument(new PdfWriter("diet_recommendations.pdf"));
+       // Document document = new Document(pdfDocument);
 
         // Add the diet recommendations text to the PDF
-        document.add(new Paragraph("Diet Recommendations:\n\n" + dietRecommendations));
+       // document.add(new Paragraph("Diet Recommendations:\n\n" + dietRecommendations));
 
         // Close the document
-        document.close();
+        //document.close();
 
         // Inform the user that the PDF has been exported
-        Toast.makeText(this, "Diet recommendations exported to PDF", Toast.LENGTH_SHORT).show();
-    }
+       // Toast.makeText(this, "Diet recommendations exported to PDF", Toast.LENGTH_SHORT).show();
+
     private void saveResultToFirestore(String result) {
         // Create a map to store the result
         Map<String, Object> resultData = new HashMap<>();
