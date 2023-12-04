@@ -48,6 +48,14 @@
                 android:hint="Enter your health goals..."
                 android:layout_marginTop="16dp" />
 
+            <!-- Input field for diagnosed disease -->
+            <EditText
+                android:id="@+id/diagnosedDiseaseEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter any diagnosed disease..."
+                android:layout_marginTop="16dp" />
+
             <!-- Input field for dietary preferences -->
             <EditText
                 android:id="@+id/dietaryPreferencesEditText"
@@ -97,10 +105,6 @@
                 android:layout_height="wrap_content"
                 android:text="Export Text to PDF"
                 android:layout_marginTop="16dp"/>
-
-
         </LinearLayout>
-
     </ScrollView>
-
 </RelativeLayout>

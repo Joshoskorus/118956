@@ -57,6 +57,8 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.itextpdf:itext7-core:7.2.1")
+    implementation("com.itextpdf:itextpdf:5.5.13")
+    implementation ("com.google.firebase:firebase-analytics:21.5.0")
     testImplementation("junit:junit:4.13.2")
     implementation("com.android.volley:volley:1.2.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

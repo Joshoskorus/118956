@@ -1,8 +1,12 @@
 package com.example.loginauth;
 
+
+
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,8 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.BuildConfig;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -23,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.loginauth.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.common.collect.HashBiMap;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,10 +42,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
 
 
 public class DietRecommendationsActivity extends AppCompatActivity {
@@ -49,6 +63,12 @@ public class DietRecommendationsActivity extends AppCompatActivity {
     EditText dietaryPreferencesEditText;
     Button submitButton;
     TextView dietRecommendationsText;
+
+    EditText diagnosedDiseaseEditText;
+
+    Button exportPdfButton;
+
+    Button exportToPdf;
 
     FirebaseFirestore db;
 
@@ -72,6 +92,12 @@ public class DietRecommendationsActivity extends AppCompatActivity {
         dietaryPreferencesEditText = findViewById(R.id.dietaryPreferencesEditText);
         submitButton = findViewById(R.id.submitButton);
         dietRecommendationsText = findViewById(R.id.dietRecommendationsText);
+        exportPdfButton = findViewById(R.id.exportPdfButton);
+        diagnosedDiseaseEditText=findViewById(R.id.diagnosedDiseaseEditText);
+
+
+        // Set onClickListener for the exportPdfButton
+
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,11 +106,14 @@ public class DietRecommendationsActivity extends AppCompatActivity {
                 String allergiesInput = allergiesEditText.getText().toString();
                 String healthGoalsInput = healthGoalsEditText.getText().toString();
                 String dietaryPreferencesInput = dietaryPreferencesEditText.getText().toString();
-                String question= "Allergies: " + allergiesInput + "\nHealth Goals: " + healthGoalsInput + "\nDietary Preferences: " + dietaryPreferencesInput +
+                String diagInput = diagnosedDiseaseEditText.getText().toString();
+                String question= "Allergies: " + allergiesInput + "\nHealth Goals: " + healthGoalsInput + "\nDietary Preferences: " + dietaryPreferencesInput +"\nDiagnosedDisease: " + diagInput+
                         "\nRecommend a very short and brief  suitable diet for me in point form less than 5 lines .";
 
 
                 sendRequest(question);
+
+                Snackbar.make(findViewById(android.R.id.content), "Just a moment, we are processing your diet", Snackbar.LENGTH_LONG).show();
 
                 // Call the OpenAI API to generate diet recommendations
 
@@ -105,11 +134,64 @@ public class DietRecommendationsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
-
     }
+
+    private void exportToPdf() {
+        // Get the diet recommendations text
+        String dietRecommendations = dietRecommendationsText.getText().toString();
+
+        // Step 3: Ensure the directory exists
+        File pdfDirectory = getPublicStorageDirectory("DietPDFs");
+        if (pdfDirectory != null) {
+            // Step 4: Create a PDF file
+            File pdfFile = createPdfFile(pdfDirectory, "DietRecommendations.pdf");
+
+            // Step 5: Write text to PDF
+            writeTextToPdf(pdfFile, dietRecommendations);
+
+            // Inform the user that the PDF has been exported
+            Toast.makeText(this, "Diet recommendations exported to PDF", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Failed to create directory", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Step 3: Ensure the directory exists
+    private File getPublicStorageDirectory(String directoryName) {
+        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), directoryName);
+        if (!directory.exists()) {
+            if (!directory.mkdirs()) {
+                // Handle directory creation failure
+                return null;
+            }
+        }
+        return directory;
+    }
+
+    // Step 4: Create a PDF file
+    private File createPdfFile(File directory, String fileName) {
+        return new File(directory, fileName);
+    }
+
+    // Step 5: Write text to PDF
+    private void writeTextToPdf(File pdfFile, String text) {
+        try (PdfWriter pdfWriter = new PdfWriter(new FileOutputStream(pdfFile))) {
+            // Create a PDF document
+            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+            Document document = new Document(pdfDocument);
+
+            // Add the diet recommendations text to the PDF
+            document.add(new Paragraph("Diet Recommendations:\n\n" + text));
+
+            // Close the document
+            document.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to export diet recommendations to PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
     public void sendRequest(String request){
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -120,6 +202,8 @@ public class DietRecommendationsActivity extends AppCompatActivity {
             jsonObject.put("model", "gpt-3.5-turbo-instruct-0914");
             jsonObject.put("prompt", request);
             jsonObject.put("max_tokens",  800);
+
+
 
 
 
@@ -155,8 +239,7 @@ public class DietRecommendationsActivity extends AppCompatActivity {
            public Map<String, String> getHeaders() throws AuthFailureError {
                HashMap<String,String> map =new HashMap<>();
                map.put("Content-Type", "application/json");
-               //Below is the api key i have unhighlighted it because it is not supposed to be exposed in github publicly
-              // map.put("Authorization", "Bearer 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");
+              map.put("Authorization", " Bearer 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");
 
                return map;
            }
@@ -189,22 +272,6 @@ public class DietRecommendationsActivity extends AppCompatActivity {
 
     }
 
-    //private void exportToPdf() throws FileNotFoundException {
-        // Get the diet recommendations text
-       // String dietRecommendations = dietRecommendationsText.getText().toString();
-
-        // Create a PDF document
-       // PdfDocument pdfDocument = new PdfDocument(new PdfWriter("diet_recommendations.pdf"));
-       // Document document = new Document(pdfDocument);
-
-        // Add the diet recommendations text to the PDF
-       // document.add(new Paragraph("Diet Recommendations:\n\n" + dietRecommendations));
-
-        // Close the document
-        //document.close();
-
-        // Inform the user that the PDF has been exported
-       // Toast.makeText(this, "Diet recommendations exported to PDF", Toast.LENGTH_SHORT).show();
 
     private void saveResultToFirestore(String result) {
         // Create a map to store the result
@@ -268,88 +335,5 @@ public class DietRecommendationsActivity extends AppCompatActivity {
 
 
 
-    // Function to generate diet recommendations using OpenAI and Volley
-   // private void generateDietRecommendations(String allergies, String healthGoals, String dietaryPreferences) {
 
-       // RequestQueue queue = Volley.newRequestQueue(this);
-       // String url="https://api.openai.com/v1/completions";
-
-       // JSONObject jsonObject = new JSONObject();
-       // try {
-          //  jsonObject.put("model", "gpt-3.5-turbo-instruct-0914");
-          //  jsonObject.put("prompt", createMessages(allergies, healthGoals, dietaryPreferences));
-           // jsonObject.put("max_tokens", 200);
-
-
-           // JsonObjectRequest request = new JsonObjectRequest(
-                  //  Request.Method.POST,
-                  //  url,
-                   // jsonObject,
-                  //  new Response.Listener<JSONObject>() {
-                     //   @Override
-                      //  public void onResponse(JSONObject response) {
-                         //   try {
-                                // Extract the AI-generated response
-                              //  JSONArray choices = response.getJSONArray("choices");
-                              //  JSONObject choice = choices.getJSONObject(0);
-                               // String aiResponse = choice.getString("text");
-
-                                // Display the recommendations in the dietRecommendationsText
-                               // dietRecommendationsText.setText(aiResponse);
-                           // } catch (JSONException e) {
-                              //  e.printStackTrace();
-                          //  }
-                      //  }
-                   // },
-                  //  new Response.ErrorListener() {
-                     //   @Override
-                      //  public void onErrorResponse(VolleyError error) {
-                            // Handle API request error
-                         //   dietRecommendationsText.setText("Error: " + error.toString());
-                       // }
-                   // }) {
-               // @Override
-               // public Map<String, String> getHeaders() throws AuthFailureError {
-                  //  HashMap<String, String> map = new HashMap<>();
-                  //  map.put("Content-Type", "application/json");
-                   // map.put("Authorization", "Bearer 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");
-                   // return map;
-              //  }
-           // };
-
-
-
-
-
-
-            // Add the request to the Volley request queue
-           // Volley.newRequestQueue(this).add(request);
-
-       // } catch (JSONException e) {
-          //  e.printStackTrace();
-       // }
-  //  }
-
-    // Create an array of messages for the API call
-   // private JSONArray createMessages(String allergies, String healthGoals, String dietaryPreferences) {
-       // JSONArray messages = new JSONArray();
-      //  messages.put(createMessage("system", "You are a helpful diet recommender."));
-       // messages.put(createMessage("user", "I have allergies to " + allergies +
-            //    ". My health goal is " + healthGoals + ". My dietary preference is " + dietaryPreferences));
-       // messages.put(createMessage("system", "Based on your input, here are some diet recommendations for you:")); // Added for clarity
-
-       // return messages;
-   // }
-
-    // Create a JSON object for a message
-   // private JSONObject createMessage(String role, String content) {
-       // JSONObject message = new JSONObject();
-       // try {
-        //    message.put("role", role);
-        //    message.put("content", content);
-       // } catch (JSONException e) {
-          //  e.printStackTrace();
-       // }
-       // return message;
-   // }
 
